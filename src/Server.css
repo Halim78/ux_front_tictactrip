@@ -1,0 +1,16 @@
+.card
+{
+    width: 400px;
+    height: 500px;
+    margin-top: 5%;
+    margin-left: 39%;
+    border: 5px;
+    font-weight: bold;
+}
+
+.row justify-content-center
+{
+    display: flex;
+    width: 200px;
+    height: 50px;
+}
