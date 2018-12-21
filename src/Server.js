@@ -4,60 +4,56 @@ import './Server.css'
 
 
 
-class Server extends Component {
+class Test extends Component {
 
     state = {
-        resultat : [],
-        item : ""
-      }
-    
-      componentDidMount = (e) => { 
-        const ville = this.state.item
-        axios.get(`https://www-uat.tictactrip.eu/api/cities/autocomplete/?q=${ville}`)
-        .then(res => {
-          this.setState({
-              resultat : res.data
-          })
-        })
+        resultats : [],
+        items : ""
       }
 
       handleChange = (e) => {
-        const todoSearch = 
-        this.state.resultat.filter(f => 
-        (f.local_name.toLowerCase().indexOf(this.state.item) !== -1) || (f.local_name.toUpperCase().indexOf(this.state.item) !== -1));
-        this.setState({
-            resultat : todoSearch,
-            item : e.target.value
-        })
-        this.forceUpdate()
-      }
-
-      handleSubmit = (e) => {
           e.preventDefault()
-        this.setState({
-            item : this.state.resultat[0].local_name
+          this.setState({
+              items : e.target.value
+          })
+          const ville = this.state.items
+        axios.get(`https://www-uat.tictactrip.eu/api/cities/autocomplete/?q=${ville}`)
+        .then(res => {
+          this.setState({
+              resultats : res.data
+          })
+        })
+
+        axios.get(`http://www-uat.tictactrip.eu/api/cities/popular/5`)
+        .then(res => {
+          this.setState({
+              resultats : res.data
+          })
         })
       }
 
       handleClick = name => () => {
         this.setState({
-            item : name
+            items : name
         })
       }
      
+      handleSubmit = (e) => {
+          e.preventDefault()
+        this.setState({
+            items : this.state.resultats[0].local_name
+        })
+      }
 
   render() {
-      console.log(this.state.resultat)
+      console.log(this.state.resultats)
       if (this.state.resultat=== null)
       return "loading..."
-      const todoSearch = 
-        this.state.resultat.filter(f => 
-        (f.local_name.toLowerCase().indexOf(this.state.item) !== -1) || (f.local_name.toUpperCase().indexOf(this.state.item) !== -1));
     return (
       <div>
-        <h1>TICTACTREP</h1>
+        <h1>TICTACTRIP</h1>
           <h2>Search bar</h2>
-      <div class="container">
+      <div className="container">
     <br/>
 	<div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
@@ -66,21 +62,21 @@ class Server extends Component {
                 <input 
                 onChange={this.handleChange}
                 name="" 
-                value={this.state.item}
+                value={this.state.items}
                 className="form-control form-control-lg form-control-borderless" 
                 type="search" 
-                placeholder="Search topics or keywords..."/>
+                placeholder="Select your city..."/>
             </form>
             </div>
         </div>
     </div>
     </div>
         <div className="card">
-            {todoSearch.map((e,i) => <p onClick={this.handleClick(e.local_name)} key={i}>{e.local_name}</p>)}
+            {this.state.resultats.map((e,i) => <p onClick={this.handleClick(e.local_name)} key={i}>{e.local_name}</p>)}
         </div>
     </div>
     )
   }
 }
 
-export default  Server;
+export default  Test;

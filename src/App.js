@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-// import Server from './Server';
-import Test from './Test';
+import Server from './Server';
 
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-          {/* <Server /> */}
-          <Test />
+          <Server />
       </div>
     );
   }
